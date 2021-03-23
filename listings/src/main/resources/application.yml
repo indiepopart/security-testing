@@ -1,0 +1,41 @@
+server:
+  port: 8081
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: airbnb
+  data:
+    mongodb:
+      port: 27017
+      database: airbnb
+#  security:
+#    user:
+#      name: user
+#      password: password
+#  security:
+#   oauth2:
+#     resourceserver:
+#       jwt:
+#         issuer-uri: https://dev-7678651.okta.com/oauth2/default
+logging:
+  level:
+    root: INFO
+    org.springframework.data.mongodb: TRACE
+    org.springframework.security: TRACE
+    com.okta: TRACE
+    org.mongodb: TRACE
+    de.flapdoodle: TRACE
+#    org.springframework: DEBUG
+okta:
+  oauth2:
+    issuer: https://dev-7678651.okta.com/oauth2/default
+    audience: api://default
+#    client-secret: KK3iQb0p4zpFQPB5d5m4b7_NjBhVOY5y2sZeXMDH
+#    client-id: 0oa8adqy9WCK2Zn6L5d6
+
+
+
+
+mongo-dump: /home/indiepopart/mongodb/listingsAndReviews.bson

@@ -1,0 +1,60 @@
+package com.okta.developer.listings;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.okta.developer.listings.model.AirbnbListing;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.test.web.servlet.MockMvc;
+
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+public class AirbnbMvcTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+
+    @Test
+    public void collectionGet_noAuth_returnsUnauthorized() throws Exception {
+        this.mockMvc.perform(get("/airbnb")).andExpect(status().isUnauthorized());
+
+    }
+
+    @Test
+    public void save_withJwtToken_returnsForbidden() throws Exception {
+        AirbnbListing listing = new AirbnbListing();
+        listing.setName("test");
+        String json = objectMapper.writeValueAsString(listing);
+        this.mockMvc.perform(post("/airbnb").content(json).with(jwt()))
+                .andExpect(status().isForbidden());
+
+    }
+
+    @Test
+    public void save_withValidJwtToken_returnsForbidden() throws Exception {
+        AirbnbListing listing = new AirbnbListing();
+        listing.setName("test");
+        String json = objectMapper.writeValueAsString(listing);
+        this.mockMvc.perform(post("/airbnb").content(json).with(jwt().authorities(new SimpleGrantedAuthority("LISTING_create"))))
+                .andExpect(status().isCreated());
+
+    }
+
+    @Test
+    public void collectionGet_withValidJwtToken_returnsOk() throws Exception {
+        this.mockMvc.perform(get("/airbnb").with(jwt())).andExpect(status().isOk());
+    }
+
+
+}

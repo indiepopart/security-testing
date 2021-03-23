@@ -25,9 +25,8 @@ public class TheaterController {
     @PostMapping("/theater")
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAuthority('THEATER_create')")
-    public Mono<Void> saveTheater(@RequestBody Theater theater){
-        theaterRepository.save(theater);
-        return Mono.empty();
+    public Mono<Theater> saveTheater(@RequestBody Theater theater){
+        return theaterRepository.save(theater);
     }
 
 }

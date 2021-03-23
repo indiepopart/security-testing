@@ -43,12 +43,13 @@ public class TheaterControllerTest {
     }
 
     @Test
-    public void post_withValidOpaqueToken_returnsFodbidden() throws Exception{
+    public void post_withValidOpaqueToken_returnsCreated() throws Exception{
         Theater theater = new Theater();
-        theater.setId("123");
         theater.setLocation(new Location());
         this.client.mutateWith(mockOpaqueToken().authorities(new SimpleGrantedAuthority("THEATER_create")))
                 .post().uri("/theater").body(fromValue(theater))
-                .exchange().expectStatus().isCreated();
+                .exchange()
+                .expectStatus().isCreated()
+                .expectBody().jsonPath("$.id").isNotEmpty();
     }
 }

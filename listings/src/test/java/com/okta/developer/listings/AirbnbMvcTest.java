@@ -12,6 +12,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -42,12 +44,14 @@ public class AirbnbMvcTest {
     }
 
     @Test
-    public void save_withValidJwtToken_returnsForbidden() throws Exception {
+    public void save_withValidJwtToken_returnsCreated() throws Exception {
         AirbnbListing listing = new AirbnbListing();
         listing.setName("test");
         String json = objectMapper.writeValueAsString(listing);
         this.mockMvc.perform(post("/airbnb").content(json).with(jwt().authorities(new SimpleGrantedAuthority("LISTING_create"))))
-                .andExpect(status().isCreated());
+                .andDo(print())
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id").isNotEmpty());
 
     }
 

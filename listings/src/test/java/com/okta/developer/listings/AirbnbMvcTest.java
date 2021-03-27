@@ -48,7 +48,7 @@ public class AirbnbMvcTest {
         AirbnbListing listing = new AirbnbListing();
         listing.setName("test");
         String json = objectMapper.writeValueAsString(listing);
-        this.mockMvc.perform(post("/airbnb").content(json).with(jwt().authorities(new SimpleGrantedAuthority("LISTING_create"))))
+        this.mockMvc.perform(post("/airbnb").content(json).with(jwt().authorities(new SimpleGrantedAuthority("listing_admin"))))
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").isNotEmpty());

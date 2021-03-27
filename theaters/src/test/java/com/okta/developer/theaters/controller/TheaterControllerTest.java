@@ -46,7 +46,7 @@ public class TheaterControllerTest {
     public void post_withValidOpaqueToken_returnsCreated() throws Exception{
         Theater theater = new Theater();
         theater.setLocation(new Location());
-        this.client.mutateWith(mockOpaqueToken().authorities(new SimpleGrantedAuthority("THEATER_create")))
+        this.client.mutateWith(mockOpaqueToken().authorities(new SimpleGrantedAuthority("theater_admin")))
                 .post().uri("/theater").body(fromValue(theater))
                 .exchange()
                 .expectStatus().isCreated()

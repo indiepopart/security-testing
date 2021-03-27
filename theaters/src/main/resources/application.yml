@@ -2,23 +2,12 @@ server:
   port: 8082
 
 spring:
-  profiles:
-    active: dev
   application:
     name: theater
   data:
     mongodb:
       port: 27018
       database: theaters
-#  security:
-#    user:
-#      name: user
-#      password: password
-#  security:
-#   oauth2:
-#     resourceserver:
-#       jwt:
-#         issuer-uri: https://dev-7678651.okta.com/oauth2/default
   security:
     oauth2:
       resourceserver:
@@ -28,18 +17,15 @@ spring:
           client-id: 0oa8adqy9WCK2Zn6L5d6
 logging:
   level:
-    root: INFO
-    org.springframework.data.mongodb: TRACE
-    org.springframework.security: TRACE
-    org.springframework.data: TRACE
+    root: DEBUG
+    org.springframework.data.mongodb: INFO
+    org.springframework.security: DEBUG
+    org.springframework.data: DEBUG
+    org.springframework.boot: DEBUG
     com.okta: TRACE
-    org.mongodb: TRACE
-    de.flapdoodle: TRACE
-#okta:
-#  oauth2:
-#    issuer: https://dev-7678651.okta.com/oauth2/default
-#    client-secret: KK3iQb0p4zpFQPB5d5m4b7_NjBhVOY5y2sZeXMDH
-#    client-id: 0oa8adqy9WCK2Zn6L5d6
+    org.mongodb: INFO
+    de.flapdoodle: INFO
+    com.nimbusds: DEBUG
 
 
 

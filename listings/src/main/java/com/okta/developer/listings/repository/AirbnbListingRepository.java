@@ -9,7 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 public interface AirbnbListingRepository extends MongoRepository<AirbnbListing, String> {
 
     @Override
-    @PreAuthorize("hasAuthority('LISTING_create')")
+    @PreAuthorize("hasAuthority('listing_admin')")
     AirbnbListing save(AirbnbListing s);
 
 
